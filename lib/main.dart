@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'week1/welcome/welcome_view.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Camp',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter Camp'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
-      ),
+      home: WelcomeView(),
     );
   }
 }
