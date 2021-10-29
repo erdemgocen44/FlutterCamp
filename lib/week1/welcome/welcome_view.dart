@@ -1,6 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class WelcomeView extends StatelessWidget {
@@ -15,7 +13,7 @@ class WelcomeView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.face,
             ),
           ),
@@ -24,7 +22,7 @@ class WelcomeView extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add_call),
+            const Icon(Icons.add_call),
             Text(
               _appBarTitle,
               style: Theme.of(context).primaryTextTheme.headline6!.copyWith(
@@ -39,21 +37,22 @@ class WelcomeView extends StatelessWidget {
           Expanded(
             flex: 5,
             child: ListView(
+              shrinkWrap: true,
               children: [
-                expandedContainer(randomColor: randomColor),
-                expandedContainer(randomColor: randomColor),
-                expandedContainer(randomColor: randomColor),
-                expandedContainer(randomColor: randomColor),
-                expandedContainer(randomColor: randomColor),
+                ExpandedContainer(randomColor: randomColor),
+                ExpandedContainer(randomColor: randomColor),
+                ExpandedContainer(randomColor: randomColor),
+                ExpandedContainer(randomColor: randomColor),
+                ExpandedContainer(randomColor: randomColor),
                 Expanded(
-                  flex: 4,
+                  flex: 1,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
                       itemCount: 100,
                       itemBuilder: (context, index) {
                         return SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          height: MediaQuery.of(context).size.height * 0.7,
+                          width: MediaQuery.of(context).size.width * 0.3,
                           child: Card(
                             child: ListTile(
                               onTap: () {},
@@ -61,7 +60,8 @@ class WelcomeView extends StatelessWidget {
                                 backgroundImage: NetworkImage(_randomImageUrl),
                               ),
                               title: Text("$_appBarTitle" "$index"),
-                              trailing: Icon(Icons.arrow_circle_up_rounded),
+                              trailing:
+                                  const Icon(Icons.arrow_circle_up_rounded),
                             ),
                           ),
                         );
@@ -76,8 +76,8 @@ class WelcomeView extends StatelessWidget {
   }
 }
 
-class expandedContainer extends StatelessWidget {
-  const expandedContainer({
+class ExpandedContainer extends StatelessWidget {
+  const ExpandedContainer({
     Key? key,
     required this.randomColor,
   }) : super(key: key);
@@ -86,10 +86,22 @@ class expandedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      width: 500,
-      color: randomColor,
+    return Expanded(
+      flex: 1,
+      child: Dismissible(
+        key: UniqueKey(),
+        background: Container(
+          color: Colors.deepOrange,
+        ),
+        secondaryBackground: Container(
+          color: Colors.amberAccent,
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: 500,
+          color: randomColor,
+        ),
+      ),
     );
   }
 }
