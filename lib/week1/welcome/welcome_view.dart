@@ -9,99 +9,112 @@ class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.face,
-            ),
-          ),
-        ],
-        centerTitle: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.add_call),
-            Text(
-              _appBarTitle,
-              style: Theme.of(context).primaryTextTheme.headline6!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-            ),
-          ],
-        ),
-      ),
+      appBar: buildAppBar(context),
       body: Column(
         children: [
-          Expanded(
-            flex: 5,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                ExpandedContainer(randomColor: randomColor),
-                ExpandedContainer(randomColor: randomColor),
-                ExpandedContainer(randomColor: randomColor),
-                ExpandedContainer(randomColor: randomColor),
-                ExpandedContainer(randomColor: randomColor),
-                Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: 100,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: Card(
-                            child: ListTile(
-                              onTap: () {},
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage(_randomImageUrl),
-                              ),
-                              title: Text("$_appBarTitle" "$index"),
-                              trailing:
-                                  const Icon(Icons.arrow_circle_up_rounded),
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              ],
-            ),
-          ),
+          Expanded(flex: 5, child: buildListViewTop(context)),
+          Expanded(flex: 1, child: buildListView()),
+          Expanded(flex: 1, child: buildDismissibleBottomCard()),
         ],
       ),
     );
   }
-}
 
-class ExpandedContainer extends StatelessWidget {
-  const ExpandedContainer({
-    Key? key,
-    required this.randomColor,
-  }) : super(key: key);
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      centerTitle: false,
+      actions: [buildIconButtonFavorite(context)],
+      title: buildRowAppBarTitle(context),
+    );
+  }
 
-  final MaterialColor randomColor;
+  IconButton buildIconButtonFavorite(BuildContext context) {
+    return IconButton(
+        icon: Icon(Icons.favorite),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => Column(),
+          );
+        });
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: Dismissible(
-        key: UniqueKey(),
-        background: Container(
-          color: Colors.deepOrange,
-        ),
-        secondaryBackground: Container(
-          color: Colors.amberAccent,
-        ),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: 500,
-          color: randomColor,
+  Row buildRowAppBarTitle(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(Icons.wallpaper),
+        buildTextAppBar(context),
+      ],
+    );
+  }
+
+  Text buildTextAppBar(BuildContext context) {
+    return Text(
+      _appBarTitle,
+      style: Theme.of(context)
+          .primaryTextTheme
+          .headline6!
+          .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+    );
+  }
+
+  ListView buildListViewTop(BuildContext context) {
+    return ListView(
+      children: [
+        Container(
+            width: 500,
+            height: MediaQuery.of(context).size.height * 0.1,
+            color: randomColor),
+        Container(
+            width: 500,
+            height: MediaQuery.of(context).size.height * 0.1,
+            color: randomColor),
+        Container(
+            width: 500,
+            height: MediaQuery.of(context).size.height * 0.1,
+            color: randomColor),
+        Container(
+            width: 500,
+            height: MediaQuery.of(context).size.height * 0.1,
+            color: randomColor),
+      ],
+    );
+  }
+
+  ListView buildListView() {
+    return ListView.builder(
+      itemCount: 100,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return buildListViewCard(context, index);
+      },
+    );
+  }
+
+  SizedBox buildListViewCard(BuildContext context, int index) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: Card(
+        child: ListTile(
+          onTap: () {},
+          leading: CircleAvatar(backgroundImage: NetworkImage(_randomImageUrl)),
+          title: Text('$_appBarTitle $index'),
+          trailing: Icon(Icons.arrow_right_alt),
         ),
       ),
     );
   }
+
+  Dismissible buildDismissibleBottomCard() {
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(color: Colors.black),
+      secondaryBackground: Container(color: Colors.red),
+      child: buildContainerBottom(),
+    );
+  }
+
+  Container buildContainerBottom() => Container(color: Colors.pink);
 }
