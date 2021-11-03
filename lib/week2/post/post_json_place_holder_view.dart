@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_camp/core/component/card/post_card.dart';
-import 'package:flutter_camp/week2/post/post_json_place_holder_view_model.dart';
+
+import 'post_json_place_holder_view_model.dart';
 
 class PostJsonPlaceHolderView extends PostJsonPlaceHolderViewModel {
-  final String title = "Json Place Holder";
+  final String title = 'Json PLace Holder';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
       body: isLoading
-          ? Center(
-              child: LinearProgressIndicator(),
-            )
+          ? Center(child: LinearProgressIndicator())
           : buildListView(),
     );
   }

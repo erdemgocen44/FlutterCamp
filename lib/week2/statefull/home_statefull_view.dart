@@ -3,15 +3,16 @@ import 'package:flutter_camp/core/component/card/user_card.dart';
 import 'package:flutter_camp/core/component/opacity/image_opacity.dart';
 import 'package:flutter_camp/core/enum/duration_enum.dart';
 import 'package:flutter_camp/core/image_manager.dart';
-import 'package:flutter_camp/week2/statefull/model/user.dart';
-import 'package:flutter_camp/week2/stateless/home_detail_stateless.dart';
 
-class HomeViewStateful extends StatefulWidget {
+import '../stateless/home_detail_stateless.dart';
+import 'model/user.dart';
+
+class HomeViewStatefull extends StatefulWidget {
   @override
-  _HomeViewStatefulState createState() => _HomeViewStatefulState();
+  _HomeViewStatefullState createState() => _HomeViewStatefullState();
 }
 
-class _HomeViewStatefulState extends State<HomeViewStateful> {
+class _HomeViewStatefullState extends State<HomeViewStatefull> {
   bool _isLoading = true;
   late final ImageManager imageManager;
   late final User user;
@@ -19,12 +20,12 @@ class _HomeViewStatefulState extends State<HomeViewStateful> {
   @override
   void initState() {
     super.initState();
-    waitForLoading();
+    _waitForLoaoding();
     imageManager = ImageManager();
     user = User.fakeItem();
   }
 
-  void waitForLoading() async {
+  Future<void> _waitForLoaoding() async {
     await Future.delayed(DurationEnums.NORMAL.time);
     setState(() {
       _isLoading = false;
@@ -45,18 +46,18 @@ class _HomeViewStatefulState extends State<HomeViewStateful> {
           _isLoading ? CircularProgressIndicator() : FlutterLogo(),
           ImageOpacity(url: imageManager.randomImage),
           UserCard(
-            user: user,
-            onPressed: () {
-              _navigateDetail();
-            },
-          ),
+              user: user,
+              onPressed: () {
+                _naviateDetail();
+              })
         ],
       ),
     );
   }
 
-  void _navigateDetail() {
+  void _naviateDetail() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => HomeDetailStsteless(model: user)));
+      builder: (context) => HomeDetailStsteless(model: user),
+    ));
   }
 }

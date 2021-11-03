@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_camp/week2/post/model/post_model.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   final PostModel? model;
 
   const PostCard({Key? key, required this.model}) : super(key: key);
+
+  @override
+  _PostCardState createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool isTouch = false;
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          child: Text(model?.id.toString() ?? ""),
-        ),
-        title: (Text(model?.title ?? "")),
-      ),
+      color: isTouch ? Colors.red : Colors.white,
+      child: buildListTile(),
     );
+  }
+
+  ListTile buildListTile() {
+    return ListTile(
+      onTap: () {
+        setState(() {
+          isTouch = !isTouch;
+        });
+      },
+      leading: CircleAvatar(
+        child: buildText(),
+      ),
+      title: Text(widget.model?.title ?? ""),
+    );
+  }
+
+  Widget buildText() {
+    if (widget.model?.id != null) {
+      return Text(widget.model?.id.toString() ?? "");
+    }
+
+    return FlutterLogo();
   }
 }
