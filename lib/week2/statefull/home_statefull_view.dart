@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_camp/core/component/card/user_card.dart';
+import 'package:flutter_camp/core/component/opacity/image_opacity.dart';
+import 'package:flutter_camp/core/enum/duration_enum.dart';
 import 'package:flutter_camp/core/image_manager.dart';
+import 'package:flutter_camp/week2/statefull/model/user.dart';
+import 'package:flutter_camp/week2/stateless/home_detail_stateless.dart';
 
 class HomeViewStateful extends StatefulWidget {
   @override
@@ -9,16 +14,18 @@ class HomeViewStateful extends StatefulWidget {
 class _HomeViewStatefulState extends State<HomeViewStateful> {
   bool _isLoading = true;
   late final ImageManager imageManager;
+  late final User user;
 
   @override
   void initState() {
     super.initState();
     waitForLoading();
     imageManager = ImageManager();
+    user = User.fakeItem();
   }
 
   void waitForLoading() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(DurationEnums.NORMAL.time);
     setState(() {
       _isLoading = false;
     });
@@ -36,13 +43,20 @@ class _HomeViewStatefulState extends State<HomeViewStateful> {
       body: Column(
         children: [
           _isLoading ? CircularProgressIndicator() : FlutterLogo(),
-          AnimatedOpacity(
-            opacity: _isLoading ? 0 : 1,
-            duration: Duration(seconds: 1),
-            child: Image.network(imageManager.randomImage),
+          ImageOpacity(url: imageManager.randomImage),
+          UserCard(
+            user: user,
+            onPressed: () {
+              _navigateDetail();
+            },
           ),
         ],
       ),
     );
+  }
+
+  void _navigateDetail() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => HomeDetailStsteless(model: user)));
   }
 }
