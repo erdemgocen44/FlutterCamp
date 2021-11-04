@@ -44,7 +44,7 @@ class WelcomeView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.wallpaper),
+        Icon(Icons.account_box),
         buildTextAppBar(context),
       ],
     );
