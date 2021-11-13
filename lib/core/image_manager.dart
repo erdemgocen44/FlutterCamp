@@ -1,3 +1,3 @@
 class ImageManager {
-  final String randomImage = "https://picsum.photos/200/300";
+  final String randomImage = "https://picsum.photos/200/400";
 }

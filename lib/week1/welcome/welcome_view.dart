@@ -111,10 +111,10 @@ class WelcomeView extends StatelessWidget {
     return Dismissible(
       key: UniqueKey(),
       background: Container(color: Colors.black),
-      secondaryBackground: Container(color: Colors.red),
+      secondaryBackground: Container(color: Colors.redAccent),
       child: buildContainerBottom(),
     );
   }
 
-  Container buildContainerBottom() => Container(color: Colors.pink);
+  Container buildContainerBottom() => Container(color: Colors.pinkAccent);
 }
