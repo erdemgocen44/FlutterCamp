@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class WelcomeView extends StatelessWidget {
   const WelcomeView({Key? key}) : super(key: key);
   final _appBarTitle = "Instagram";
-  final _randomImageUrl = "https://picsum.photos/200/300";
+  final _randomImageUrl = "https://picsum.photos/200/400";
   MaterialColor get randomColor => Colors.primaries[Random().nextInt(17)];
   @override
   Widget build(BuildContext context) {
@@ -91,10 +91,10 @@ class ExpandedContainer extends StatelessWidget {
       child: Dismissible(
         key: UniqueKey(),
         background: Container(
-          color: Colors.deepOrange,
+          color: Colors.amberAccent,
         ),
         secondaryBackground: Container(
-          color: Colors.amberAccent,
+          color: Colors.orangeAccent,
         ),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.1,
